@@ -25,6 +25,7 @@ export function Navbar() {
   ];
 
   const adultLinks = [
+    { href: "/materi", label: "Materi Guru" },
     { href: "/ortu", label: "Orang Tua" },
     { href: "/admin", label: "Admin" },
   ];
