@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────
+
+enum Grade {
+  TK_A
+  TK_B
+}
+
+enum LiteracyCategory {
+  BAHASA
+  NUMERIK
+  SAINS
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  MATCHING
+  PATTERN
+  DRAG_DROP
+}
+
+// ─────────────────────────────────────────────
+// Domain models
+// ─────────────────────────────────────────────
+
+/// A literacy module (Bahasa / Numerik / Sains) scoped to a grade level.
+model Module {
+  id          String           @id @default(cuid())
+  title       String
+  slug        String
+  category    LiteracyCategory
+  grade       Grade
+  description String?
+  icon        String?
+  colorTheme  String?
+  order       Int              @default(0)
+  activities  Activity[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([slug, grade])
+  @@index([category, grade])
+}
+
+/// A single playable quiz/activity inside a module.
+model Activity {
+  id            String       @id @default(cuid())
+  moduleId      String
+  module        Module       @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title         String
+  slug          String
+  instructionAudioUrl String?
+  order         Int          @default(0)
+  questions     Question[]
+  results       ActivityResult[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@unique([slug, moduleId])
+  @@index([moduleId])
+}
+
+/// A question belonging to an activity.
+model Question {
+  id           String       @id @default(cuid())
+  activityId   String
+  activity     Activity     @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  type         QuestionType
+  prompt       String
+  audioUrl     String?
+  imageUrl     String?
+  order        Int          @default(0)
+  choices      Choice[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([activityId])
+}
+
+/// An answer option for a question.
+model Choice {
+  id         String   @id @default(cuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  label      String
+  imageUrl   String?
+  isCorrect  Boolean  @default(false)
+  order      Int      @default(0)
+
+  @@index([questionId])
+}
+
+/// A locally-identified child session's result for a completed activity.
+/// No personal data required — `nickname` is optional and set by the child/teacher.
+model ActivityResult {
+  id          String   @id @default(cuid())
+  activityId  String
+  activity    Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  nickname    String?
+  stars       Int      @default(0)
+  correct     Int      @default(0)
+  total       Int      @default(0)
+  completedAt DateTime @default(now())
+
+  @@index([activityId])
+}

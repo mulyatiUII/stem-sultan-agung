@@ -1,0 +1,563 @@
+<title>Desain UI — Petualang STEM · TK Sultan Agung</title>
+<style>
+  :root{
+    --paper:#FFFDF8;
+    --ink:#4A4458;
+    --ink-soft:#8A8398;
+    --line:#E8E2D8;
+    --pink:#FFB3C6;   --pink-soft:#FFE3EB;
+    --mint:#A8E0C5;   --mint-soft:#E2F6EC;
+    --sky:#A9D7F5;    --sky-soft:#E3F2FD;
+    --sun:#FFD9A0;    --sun-soft:#FFF1DC;
+    --lilac:#C9B8F0;  --lilac-soft:#EFE9FB;
+    --wf-bg:#FBFAF7;
+    --wf-line:#B9B2C4;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:48px 24px 96px}
+
+  /* ---------- typography ---------- */
+  h1{font-size:2.1rem;line-height:1.2;margin:0 0 8px;text-wrap:balance}
+  h2{font-size:1.5rem;margin:72px 0 4px;padding-top:24px;border-top:3px dotted var(--line)}
+  h2 .no{display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:50%;
+    font-size:1rem;margin-right:10px;vertical-align:2px;color:var(--ink)}
+  h3{font-size:1.05rem;margin:28px 0 10px}
+  p{max-width:65ch}
+  .lead{font-size:1.05rem;color:var(--ink-soft);max-width:60ch}
+  .eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+
+  /* ---------- swatches ---------- */
+  .swatches{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}
+  .sw{flex:1 1 130px;border-radius:16px;padding:14px;border:1.5px solid rgba(0,0,0,.06)}
+  .sw b{display:block;font-size:.85rem}
+  .sw code{font-size:.75rem;opacity:.65}
+
+  /* ---------- token table ---------- */
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .scroll{overflow-x:auto}
+
+  /* ---------- wireframe canvas ---------- */
+  .wf{
+    background:var(--wf-bg);border:1.5px solid var(--line);border-radius:20px;
+    padding:18px;margin:18px 0 10px;
+    display:flex;flex-direction:column;gap:10px;
+    font-size:.72rem;color:var(--ink-soft);
+  }
+  .wf .row{display:flex;gap:10px}
+  .wf .row>*{min-width:0}
+  .bx{
+    border:1.5px dashed var(--wf-line);border-radius:12px;background:#fff;
+    padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;gap:2px;position:relative;flex:1;
+  }
+  .bx b{color:var(--ink);font-size:.74rem}
+  .bx.solid{border-style:solid}
+  .bx.pink{background:var(--pink-soft)} .bx.mint{background:var(--mint-soft)}
+  .bx.sky{background:var(--sky-soft)}  .bx.sun{background:var(--sun-soft)}
+  .bx.lilac{background:var(--lilac-soft)}
+  .bx.tall{min-height:110px} .bx.mid{min-height:74px} .bx.slim{min-height:40px}
+  .bx.grow2{flex:2} .bx.grow3{flex:3}
+  .dot{
+    position:absolute;top:-9px;left:-9px;width:20px;height:20px;border-radius:50%;
+    background:var(--ink);color:#fff;font-size:.68rem;font-weight:700;
+    display:grid;place-items:center;font-style:normal;
+  }
+  .pill{border-radius:999px !important}
+  figcaption{font-size:.78rem;color:var(--ink-soft);margin-bottom:4px}
+  figure{margin:22px 0}
+
+  /* ---------- annotations ---------- */
+  ol.anno{padding-left:0;margin:14px 0 0;list-style:none;counter-reset:n}
+  ol.anno li{
+    counter-increment:n;position:relative;padding:6px 0 6px 40px;max-width:72ch;font-size:.92rem;
+  }
+  ol.anno li::before{
+    content:counter(n);position:absolute;left:0;top:8px;width:24px;height:24px;border-radius:50%;
+    background:var(--ink);color:#fff;font-size:.72rem;font-weight:700;display:grid;place-items:center;
+  }
+  ol.anno b:first-child{color:var(--ink)}
+
+  .note{
+    background:var(--sun-soft);border-radius:14px;padding:14px 18px;font-size:.9rem;max-width:72ch;
+    border:1.5px solid #F2DFC0;margin:18px 0;
+  }
+  .chip{display:inline-block;border-radius:999px;padding:2px 12px;font-size:.72rem;font-weight:700;margin-right:6px}
+  .chip.anak{background:var(--pink-soft);color:#B0506C}
+  .chip.ortu{background:var(--lilac-soft);color:#6A55A3}
+  .chip.admin{background:var(--sky-soft);color:#3A6B96}
+  .chip.guru{background:var(--mint-soft);color:#3D7D5C}
+
+  /* mobile strip beside desktop frame */
+  .frames{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .frames .desktop{flex:3 1 420px}
+  .frames .mobile{flex:1 1 150px;max-width:210px}
+  .mobile .wf{border-radius:26px;border-width:2px}
+
+  @media (max-width:640px){ .wf .row{flex-wrap:wrap} h1{font-size:1.7rem} }
+  @media (prefers-reduced-motion:no-preference){
+    .sw{transition:transform .18s ease} .sw:hover{transform:translateY(-3px)}
+  }
+</style>
+
+<div class="wrap">
+
+<p class="eyebrow">Dokumen Desain UI · Petualang STEM · TK Sultan Agung</p>
+<h1>Wireframe & Deskripsi Antarmuka</h1>
+<p class="lead">Sebelas halaman untuk empat jenis pengguna: <span class="chip anak">Anak TK</span>
+<span class="chip guru">Guru</span> <span class="chip ortu">Orang Tua</span> <span class="chip admin">Admin</span>.
+Anak belum bisa membaca — jadi di semua halaman anak, gambar &amp; audio memimpin, teks hanya mendampingi.
+Guru adalah pengguna kunci di sekolah: ia <em>mengajar dengan</em> aplikasi ini (mode proyektor klasikal)
+dan <em>memantau</em> perkembangan tiap anak.</p>
+
+<!-- ═══════════════ FONDASI ═══════════════ -->
+<h2>Fondasi Desain</h2>
+
+<h3>Palet Warna Pastel</h3>
+<p>Warna sekaligus <em>penunjuk arah</em>: setiap modul literasi punya warna sendiri yang konsisten
+di kartu, halaman, tombol, dan bintang penghargaan — anak menavigasi lewat warna, bukan tulisan.</p>
+<div class="swatches">
+  <div class="sw" style="background:var(--pink)"><b>Merah Muda</b><code>#FFB3C6</code> · aksi utama, maskot</div>
+  <div class="sw" style="background:var(--mint)"><b>Mint</b><code>#A8E0C5</code> · Literasi Bahasa</div>
+  <div class="sw" style="background:var(--sky)"><b>Biru Langit</b><code>#A9D7F5</code> · Literasi Numerik</div>
+  <div class="sw" style="background:var(--sun)"><b>Kuning Madu</b><code>#FFD9A0</code> · Literasi Sains</div>
+  <div class="sw" style="background:var(--lilac)"><b>Lila</b><code>#C9B8F0</code> · area dewasa (ortu/admin)</div>
+  <div class="sw" style="background:#FFFDF8;border-color:var(--line)"><b>Kertas Vanila</b><code>#FFFDF8</code> · latar; tinta <code>#4A4458</code> (ungu tua lembut, bukan hitam)</div>
+</div>
+
+<h3>Tipografi & Elemen</h3>
+<div class="scroll"><table>
+<tr><th>Peran</th><th>Pilihan</th><th>Catatan</th></tr>
+<tr><td>Judul (display)</td><td><b>Baloo 2</b> — bulat, gemuk, ceria</td><td>Sudah dipakai di project; ukuran besar 32–48&nbsp;px di halaman anak</td></tr>
+<tr><td>Teks isi</td><td><b>Fredoka</b></td><td>Bentuk huruf mendekati huruf tulis yang diajarkan di TK (a satu tingkat, bukan “a” ganda)</td></tr>
+<tr><td>Tombol anak</td><td>Min. <b>96×96&nbsp;px</b>, sudut 24&nbsp;px, bayangan lembut</td><td>Motorik halus 4–6 th belum presisi; jarak antar target ≥ 16&nbsp;px</td></tr>
+<tr><td>Ilustrasi</td><td>Flat berkontur tebal, mata besar, tanpa detail rumit</td><td>Maskot: <b>Robo &amp; Bintang</b> — robot kecil pastel yang menemani di semua halaman anak</td></tr>
+<tr><td>Animasi</td><td>Lembut &amp; berarti: melayang pelan (idle), membal saat ditekan, confetti saat benar</td><td>Durasi 200–400&nbsp;ms; salah dijawab = goyang pelan + suara netral, <em>tidak pernah</em> merah menyala/buzzer</td></tr>
+<tr><td>Audio</td><td>Semua instruksi dibacakan; tombol 🔊 selalu ada</td><td>Auto-play saat halaman soal terbuka, bisa diulang</td></tr>
+<tr><td>Responsif</td><td>Desktop-first (lab komputer sekolah), tetap rapi di tablet &amp; ponsel</td><td>Grid 3 kolom → 2 (tablet) → 1 (ponsel); tombol malah membesar di layar sentuh</td></tr>
+</table></div>
+
+<!-- ═══════════════ 1. HOME ═══════════════ -->
+<h2><span class="no" style="background:var(--pink)">1</span>Home / Beranda <span class="chip anak">Anak</span></h2>
+<p>Satu tugas saja: memilih jenjang. Tanpa scroll, tanpa distraksi.</p>
+
+<div class="frames">
+<figure class="desktop">
+<figcaption>Desktop ≥1280 px</figcaption>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim solid" style="flex:2"><i class="dot">1</i><b>Logo TK Sultan Agung</b></div>
+    <div class="bx slim"><i class="dot">2</i>🔊 musik on/off</div>
+    <div class="bx slim"><i class="dot">3</i>Panduan · pintu Ortu/Admin</div>
+  </div>
+  <div class="row">
+    <div class="bx tall pink solid"><i class="dot">4</i><b>Maskot “Robo” melambai</b><span>animasi idle melayang + awan pastel berjalan pelan</span></div>
+  </div>
+  <div class="bx slim" style="border:none;background:none"><b>“Halo! Mau belajar sambil bermain?”</b> (dibacakan audio saat halaman terbuka)</div>
+  <div class="row">
+    <div class="bx tall pink pill solid"><i class="dot">5</i><b>🌟 TK A</b><span>4–5 tahun · membal saat hover</span></div>
+    <div class="bx tall sky pill solid"><i class="dot">5</i><b>⭐ TK B</b><span>5–6 tahun</span></div>
+  </div>
+</div>
+</figure>
+<figure class="mobile">
+<figcaption>Ponsel &lt;640 px</figcaption>
+<div class="wf">
+  <div class="bx slim solid"><b>Logo</b></div>
+  <div class="bx mid pink solid"><b>Robo 👋</b></div>
+  <div class="bx mid pink pill solid"><b>TK A</b></div>
+  <div class="bx mid sky pill solid"><b>TK B</b></div>
+</div>
+</figure>
+</div>
+
+<ol class="anno">
+<li><b>Logo</b> kecil di kiri atas — identitas sekolah hadir tapi tidak bersaing dengan konten anak.</li>
+<li><b>Musik latar</b> bisa dimatikan guru dengan satu klik (ikon, tanpa menu).</li>
+<li><b>Pintu dewasa</b>: tautan kecil bertuliskan teks (sengaja — anak yang belum membaca tidak tertarik mengekliknya). Menuju Panduan, Dashboard Guru, Dashboard Ortu, dan login Admin.</li>
+<li><b>Maskot Robo</b> menyapa dengan suara. Karakter yang sama muncul di seluruh aplikasi sebagai teman belajar — bukan dekorasi berganti-ganti.</li>
+<li><b>Dua kartu jenjang raksasa</b> (±40% lebar layar) — pilihan pertama dibuat oleh guru/ortu di kelas, lalu anak mengambil alih.</li>
+</ol>
+
+<!-- ═══════════════ MENU LITERASI (template) ═══════════════ -->
+<h2><span class="no" style="background:var(--mint)">2</span>Menu Jenjang → 3 Pintu Literasi <span class="chip anak">Anak</span></h2>
+<p>Setelah memilih jenjang, anak melihat tiga “pintu dunia”. Halaman ini adalah <em>template
+  bersama</em> — isi di baliknya yang berbeda per literasi (halaman 3–5).</p>
+
+<figure>
+<figcaption>Desktop — tiga pintu dunia</figcaption>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim"><i class="dot">1</i>← rumah</div>
+    <div class="bx slim solid" style="flex:3"><b>Jenjang aktif: TK A 🌟</b></div>
+    <div class="bx slim">🔊</div>
+  </div>
+  <div class="row">
+    <div class="bx tall mint solid"><i class="dot">2</i><b>🏠 Rumah Kata</b><span>Literasi Bahasa · burung membawa huruf</span></div>
+    <div class="bx tall sky solid"><i class="dot">2</i><b>🚀 Kota Angka</b><span>Literasi Numerik · roket & planet angka</span></div>
+    <div class="bx tall sun solid"><i class="dot">2</i><b>🌱 Kebun Sains</b><span>Literasi Sains · kupu-kupu & kaca pembesar</span></div>
+  </div>
+  <div class="row">
+    <div class="bx slim"><i class="dot">3</i>⭐⭐⭐ 3/6</div>
+    <div class="bx slim">⭐ 1/6</div>
+    <div class="bx slim">— 0/6</div>
+  </div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Tombol pulang</b> selalu ikon rumah di kiri atas, di posisi yang sama di seluruh aplikasi.</li>
+<li><b>Tiga pintu</b> = tiga dunia bertema, bukan tiga kartu polos: Bahasa adalah <em>rumah</em>, Numerik adalah <em>kota luar angkasa</em>, Sains adalah <em>kebun</em>. Saat kursor menyentuh, pintu “terbuka” sedikit dan terdengar bunyi khas dunianya (kicau / bip roket / gemerisik daun).</li>
+<li><b>Jejak bintang</b> per dunia — progres tampil sebagai bintang terkumpul, bukan persentase.</li>
+</ol>
+
+<!-- ═══════════════ 3. BAHASA ═══════════════ -->
+<h2><span class="no" style="background:var(--mint)">3</span>Literasi Bahasa — “Rumah Kata” <span class="chip anak">Anak</span></h2>
+<p>Latar rumah pohon pastel mint. Aktivitas tersusun sebagai <em>jalan setapak</em> dari bawah ke atas —
+urutan belajarnya nyata (huruf → suku kata → kata), maka bentuk jalurnya bermakna, bukan hiasan.</p>
+
+<figure>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim">← 🏠</div>
+    <div class="bx slim mint solid" style="flex:3"><b>🏠 Rumah Kata</b></div>
+    <div class="bx slim">⭐ 4</div>
+  </div>
+  <div class="row">
+    <div class="bx tall mint" style="flex:2"><i class="dot">1</i><b>Jalan setapak aktivitas</b>
+      <span>① Kenali Huruf ✅⭐⭐⭐ → ② Bunyi Awal ✅⭐⭐ → ③ Suku Kata ▶️ (berdenyut) → ④ Susun Kata 🔒 → ⑤ Cerita Bergambar 🔒</span>
+    </div>
+    <div class="bx tall solid"><i class="dot">2</i><b>Robo + burung kata</b><span>membacakan nama aktivitas yang disentuh</span></div>
+  </div>
+  <div class="bx slim mint pill solid"><i class="dot">3</i><b>▶️ MAIN — lanjut ke “Suku Kata”</b></div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Jalur bertahap</b>: selesai = rumah kecil menyala + bintang; berikutnya berdenyut pelan (“ini giliranmu”); yang jauh masih tertutup kabut tipis. Kunci 🔒 terbuka berurutan agar anak tidak melompat ke materi yang belum siap.</li>
+<li><b>Panel maskot</b>: menyentuh rumah mana pun → Robo mengucapkan judulnya (“Su-ku ka-ta!”) sebelum anak memutuskan masuk.</li>
+<li><b>Satu tombol aksi besar</b> di bawah — selalu menuju aktivitas yang sedang berdenyut, untuk anak yang tidak mau memilih-milih.</li>
+</ol>
+
+<!-- ═══════════════ 4. NUMERIK ═══════════════ -->
+<h2><span class="no" style="background:var(--sky)">4</span>Literasi Numerik — “Kota Angka” <span class="chip anak">Anak</span></h2>
+<p>Struktur sama dengan Rumah Kata (konsistensi = anak langsung paham), tetapi dunianya langit
+biru pastel: aktivitas adalah <em>planet-planet</em> yang dikunjungi roket milik anak.</p>
+
+<figure>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim">← 🏠</div>
+    <div class="bx slim sky solid" style="flex:3"><b>🚀 Kota Angka</b></div>
+    <div class="bx slim">⭐ 2</div>
+  </div>
+  <div class="row">
+    <div class="bx tall sky" style="flex:2"><i class="dot">1</i><b>Lintasan planet</b>
+      <span>🪐 Membilang 1–10 ✅ → 🪐 Pola Manik-manik ▶️ → 🪐 Bandingkan Banyak 🔒 → 🪐 Berhitung 🔒 → 🪐 Baca Data 🔒 (TK B)</span>
+    </div>
+    <div class="bx tall solid"><i class="dot">2</i><b>Roket anak</b><span>parkir di planet terakhir yang dicapai; terbang beranimasi saat pindah planet</span></div>
+  </div>
+  <div class="bx slim sky pill solid"><b>▶️ MAIN — terbang ke “Pola Manik-manik”</b></div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Planet = aktivitas</b>. Planet selesai mendapat cincin bintang. Kuis “Pola Manik-manik” dari purwarupa Anda hidup di sini.</li>
+<li><b>Roket sebagai penanda progres</b> — posisi roket <em>adalah</em> progress bar, tanpa angka persen.</li>
+</ol>
+
+<!-- ═══════════════ 5. SAINS ═══════════════ -->
+<h2><span class="no" style="background:var(--sun)">5</span>Literasi Sains — “Kebun Sains” <span class="chip anak">Anak</span></h2>
+<p>Kebun kuning-madu dengan sungai kecil. Aktivitas tumbuh sebagai <em>bunga</em>: tiap aktivitas selesai,
+bunganya mekar — kebun anak makin ramai seiring belajarnya. Progres = pemandangan yang tumbuh.</p>
+
+<figure>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim">← 🏠</div>
+    <div class="bx slim sun solid" style="flex:3"><b>🌱 Kebun Sains</b></div>
+    <div class="bx slim">⭐ 0</div>
+  </div>
+  <div class="row">
+    <div class="bx tall sun" style="flex:2"><i class="dot">1</i><b>Petak kebun</b>
+      <span>🌸 Panca Indera ▶️ → 🌷 Cuaca 🔒 → 🌻 Hewan & Rumahnya 🔒 → 🌼 Tenggelam/Terapung 🔒 → 🍀 Tanaman Tumbuh 🔒</span>
+    </div>
+    <div class="bx tall solid"><i class="dot">2</i><b>Robo berkaca pembesar</b><span>+ kupu-kupu terbang mengikuti kursor</span></div>
+  </div>
+  <div class="bx slim sun pill solid"><b>▶️ MAIN — sirami “Panca Indera”</b></div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Bunga mekar bertingkat</b>: kuncup (belum), setengah mekar (dimulai), mekar penuh + lebah hinggap (3 bintang). Anak “menyirami” aktivitas dengan menyentuhnya — metafora sains yang bisa dirasakan.</li>
+<li><b>Interaksi ambient</b>: kupu-kupu mengikuti kursor pelan — melatih kontrol mouse tanpa menjadi tugas.</li>
+</ol>
+
+<!-- ═══════════════ 6. GAME ═══════════════ -->
+<h2><span class="no" style="background:var(--pink)">6</span>Halaman Game (Eksplorasi Bebas) <span class="chip anak">Anak</span></h2>
+<p>Berbeda dari Quiz: <em>tidak ada benar-salah yang menghentikan</em>. Anak bereksperimen dengan
+drag-and-drop; layar merespons apa pun yang dicoba. Contoh yang digambar: game menyusun pola manik-manik.</p>
+
+<figure>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim"><i class="dot">1</i>✖ keluar</div>
+    <div class="bx slim solid" style="flex:3"><b>Membuat Gelang Manik-Manik</b></div>
+    <div class="bx slim">🔊 ulangi instruksi</div>
+  </div>
+  <div class="row">
+    <div class="bx mid solid" style="flex:3"><i class="dot">2</i><b>Papan kerja: tali gelang</b><span>⬤ ⬤ ⬤ ◯ ◯ ◯ — manik menempel dengan bunyi “klik” lembut</span></div>
+  </div>
+  <div class="row">
+    <div class="bx mid pink solid"><i class="dot">3</i><b>Keranjang manik</b><span>🔴 🔵 🟡 🟢 — sumber drag, stok tak terbatas</span></div>
+    <div class="bx mid solid"><i class="dot">4</i><b>Robo komentator</b><span>“Wah, merah-biru-merah… pola apa selanjutnya ya?”</span></div>
+  </div>
+  <div class="row">
+    <div class="bx slim pill"><i class="dot">5</i>🔄 ulang</div>
+    <div class="bx slim pink pill solid" style="flex:2"><b>✨ SELESAI — pakai gelangku!</b></div>
+  </div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Keluar selalu bisa</b> — tanpa konfirmasi berlapis; kembali ke peta dunia.</li>
+<li><b>Papan kerja besar di tengah</b>; slot kosong bergaris putus-putus, mengajak diisi.</li>
+<li><b>Manik dapat diseret</b> dengan area genggam besar (±80 px); saat diangkat, manik membesar sedikit dan bayangannya jatuh — umpan balik “sedang dipegang” yang jelas.</li>
+<li><b>Robo berkomentar, tidak menilai</b>: jika pola tersusun rapi ia bertepuk tangan; jika acak ia tetap positif (“Gelang warna-warni!”). Eksperimen ≠ salah.</li>
+<li><b>Selesai</b> → gelang melingkar di tangan Robo + confetti; tawaran: ulang / dunia lain.</li>
+</ol>
+
+<!-- ═══════════════ 7. QUIZ ═══════════════ -->
+<h2><span class="no" style="background:var(--sky)">7</span>Halaman Quiz <span class="chip anak">Anak</span></h2>
+<p>Terstruktur: satu soal per layar, jawaban dinilai (di server), bintang di akhir. Tata letak
+tetap sama untuk semua tipe soal — yang berganti hanya isi tengahnya.</p>
+
+<figure>
+<figcaption>Layar soal</figcaption>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim">✖</div>
+    <div class="bx slim solid" style="flex:3"><i class="dot">1</i><b>Jejak soal: 🟢🟢🔵◯◯</b><span>bukan “3/5” — lampu yang menyala</span></div>
+    <div class="bx slim solid pill">🔊 <b>dengarkan</b></div>
+  </div>
+  <div class="row">
+    <div class="bx mid solid" style="flex:3"><i class="dot">2</i><b>Panggung soal</b><span>gambar besar + prompt pendek: “Manik apa selanjutnya?” 🔴🔵🔴🔵❓</span></div>
+  </div>
+  <div class="row">
+    <div class="bx tall sky pill solid"><i class="dot">3</i><b>🔴</b><span>pilihan A</span></div>
+    <div class="bx tall sky pill solid"><i class="dot">3</i><b>🟢</b><span>pilihan B</span></div>
+  </div>
+  <div class="row">
+    <div class="bx slim" style="border:none;background:none"><i class="dot">4</i>area umpan balik: ✅ confetti + “Betul!” · ❌ goyang lembut + “Coba lagi yuk” (kesempatan kedua)</div>
+  </div>
+</div>
+</figure>
+
+<figure>
+<figcaption>Layar hasil</figcaption>
+<div class="wf">
+  <div class="row"><div class="bx tall sun solid"><i class="dot">5</i><b>⭐ ⭐ ⭐</b><span>bintang jatuh satu-satu (spring) + Robo menari + suara hore anak-anak</span></div></div>
+  <div class="row">
+    <div class="bx mid pill pink solid"><b>🔄 Main lagi</b></div>
+    <div class="bx mid pill sky solid"><b>➡️ Petualangan berikutnya</b></div>
+    <div class="bx mid pill"><b>🏠</b></div>
+  </div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Jejak lampu</b>: hijau = sudah dijawab, biru berdenyut = sedang, abu = belum. Anak melihat “tinggal dua lampu lagi” tanpa membaca angka.</li>
+<li><b>Audio otomatis</b> membacakan soal saat muncul; tombol 🔊 mengulang. Prompt teks tetap ditulis — anak TK B mulai mengeja.</li>
+<li><b>Maksimal 2–4 pilihan</b>, semua tombol ukuran telapak tangan; setelah dipilih, pilihan lain memudar agar fokus ke umpan balik.</li>
+<li><b>Salah = kesempatan kedua</b> dengan petunjuk Robo, baru kemudian lanjut. Tidak ada skor merah, tidak ada bunyi kalah.</li>
+<li><b>Perayaan proporsional</b>: 3 bintang = confetti penuh; 1 bintang tetap dirayakan (“Hebat, kamu menyelesaikannya!”) — hasil kecil bukan hukuman.</li>
+</ol>
+
+<!-- ═══════════════ 8. DASHBOARD GURU ═══════════════ -->
+<h2><span class="no" style="background:var(--mint)">8</span>Dashboard Guru <span class="chip guru">Guru</span></h2>
+<p>Ruang kerja guru sebelum dan sesudah mengajar. Menjawab tiga pertanyaan:
+<em>“Hari ini saya mengajar apa?”</em>, <em>“Bagaimana saya memulai sesi kelas?”</em>, dan
+<em>“Bagaimana perkembangan tiap anak untuk laporan semester?”</em> Visual: bersih seperti area
+dewasa, aksen mint — hangat tapi efisien, karena guru membukanya di sela kesibukan kelas.</p>
+
+<figure>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim solid" style="flex:2"><i class="dot">1</i><b>Kelas: TK A Melati ▾</b><span>18 anak · Bu Sri</span></div>
+    <div class="bx slim">jadwal minggu ini</div>
+    <div class="bx slim">keluar</div>
+  </div>
+  <div class="row">
+    <div class="bx tall mint solid" style="flex:2"><i class="dot">2</i><b>▶️ MULAI SESI KELAS</b><span>aktivitas sesuai RPPH hari ini: “Pola Manik-manik” — satu klik langsung ke Mode Mengajar</span></div>
+    <div class="bx tall solid"><i class="dot">3</i><b>RPPH minggu ini</b><span>Sen: Pola manik ✅ · Sel: Panca indera ▶️ · Rab: Membilang · Kam: Huruf A-B · Jum: Cuaca</span></div>
+  </div>
+  <div class="row">
+    <div class="bx mid solid" style="flex:2"><i class="dot">4</i><b>Peta kelas</b><span>grid 18 kartu anak: foto · ⭐ · titik warna capaian per literasi — sorot lembut: “3 anak belum mencoba Numerik”</span></div>
+    <div class="bx mid sun solid"><i class="dot">5</i><b>Perlu perhatian</b><span>“Bima: 2× berhenti di soal yang sama — dampingi saat sesi berikutnya”</span></div>
+  </div>
+  <div class="row">
+    <div class="bx mid solid" style="flex:3"><i class="dot">6</i><b>Catatan perkembangan (asesmen)</b><span>per anak × per aspek: BB · MB · BSH · BSB + catatan anekdot guru → ekspor untuk rapor semester</span></div>
+  </div>
+  <div class="row">
+    <div class="bx slim pill"><i class="dot">7</i>👁 latihan/pratinjau aktivitas</div>
+    <div class="bx slim pill">🖨 cetak lembar kerja</div>
+  </div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Konteks kelas dulu</b> — guru yang memegang dua rombel berganti kelas dari satu dropdown; semua panel di bawahnya mengikuti.</li>
+<li><b>Satu tombol besar “Mulai Sesi Kelas”</b> — jalur tercepat dari membuka laptop ke mengajar di proyektor. Aktivitasnya otomatis dari RPPH hari ini, bisa diganti manual.</li>
+<li><b>RPPH (Rencana Pelaksanaan Pembelajaran Harian)</b> ringan: guru memetakan aktivitas aplikasi ke hari. Bukan pengganti dokumen RPPH resmi — tapi penghubungnya: tiap aktivitas punya tautan “tujuan pembelajaran” yang bisa disalin ke RPPH.</li>
+<li><b>Peta kelas</b>: 18 wajah dalam satu layar. Titik mint/biru/kuning kecil = capaian per literasi. Guru melihat pola kelas dalam lima detik.</li>
+<li><b>Kartu “perlu perhatian”</b> diturunkan dari data (anak mengulang soal yang sama, lama tidak bermain) — bahan pendampingan, bukan penilaian.</li>
+<li><b>Asesmen autentik PAUD</b>: skala BB/MB/BSH/BSB (Belum → Mulai → Berkembang Sesuai Harapan → Sangat Baik) per aspek perkembangan, terisi awal dari data bermain lalu <em>dikonfirmasi guru</em> — aplikasi mengusulkan, guru yang memutuskan. Ekspor CSV/PDF untuk rapor.</li>
+<li><b>Latihan dulu</b>: guru bisa memainkan aktivitas apa pun dalam mode pratinjau (tanpa tercatat) supaya siap sebelum mengajar; lembar kerja versi cetak untuk kegiatan tanpa layar.</li>
+</ol>
+
+<!-- ═══════════════ 9. MODE MENGAJAR ═══════════════ -->
+<h2><span class="no" style="background:var(--mint)">9</span>Mode Mengajar — Layar Proyektor <span class="chip guru">Guru</span> <span class="chip anak">Anak</span></h2>
+<p>Inti pembelajaran klasikal: laptop guru tersambung proyektor, seluruh kelas melihat satu layar.
+Konten anak tampil <em>ekstra besar</em> (terbaca dari bangku belakang); kendali guru berkumpul di
+strip tipis di bawah yang tidak menarik perhatian anak.</p>
+
+<figure>
+<figcaption>Layar proyektor saat sesi berlangsung</figcaption>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim solid" style="flex:3"><b>Jejak soal: 🟢🟢🔵◯◯</b></div>
+    <div class="bx slim"><i class="dot">1</i>👧 giliran: <b>Aisyah</b></div>
+  </div>
+  <div class="row">
+    <div class="bx tall solid" style="flex:3"><i class="dot">2</i><b>PANGGUNG BESAR</b><span>soal tampil 2× ukuran mode individu · “Manik apa selanjutnya?” 🔴🔵🔴🔵❓ · pilihan jadi kartu raksasa yang bisa disentuh anak yang maju</span></div>
+  </div>
+  <div class="row">
+    <div class="bx slim mint solid" style="flex:3"><i class="dot">3</i><b>Strip guru:</b><span>⏸ jeda · 🔊 ulang audio · 🎲 pilih anak · ➡ lanjut · ✏ papan coret · ✖ akhiri sesi</span></div>
+  </div>
+</div>
+</figure>
+
+<figure>
+<figcaption>Pemilih giliran — “roda nama” 🎲</figcaption>
+<div class="wf">
+  <div class="row">
+    <div class="bx tall mint solid" style="flex:2"><i class="dot">4</i><b>Roda berputar → berhenti di foto & nama anak</b><span>musik drumroll pendek · anak yang terpilih maju ke depan</span></div>
+    <div class="bx tall solid"><i class="dot">5</i><b>Daftar giliran</b><span>✅ sudah: Bima, Sari · ◯ belum: 16 — roda hanya memilih yang belum, semua kebagian</span></div>
+  </div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Nama anak yang sedang giliran</b> selalu terlihat — kelas tahu siapa yang maju, guru tidak perlu mengingat.</li>
+<li><b>Panggung proyektor</b>: kontras dinaikkan, ukuran gambar dan tombol digandakan, animasi ambient dikurangi (fokus kelas). Anak yang maju menjawab lewat klik mouse guru, layar sentuh, atau menunjuk — guru yang mengeksekusi.</li>
+<li><b>Strip guru</b> sengaja kecil dan bersuara netral: jeda membekukan layar dengan awan lembut (“istirahat sebentar”), papan coret membiarkan guru menggambar di atas soal (mis. melingkari pola), akhiri sesi merangkum bintang kelas.</li>
+<li><b>Roda nama</b> membuat pemilihan giliran adil dan seru — pengganti “siapa yang mau maju?” yang selalu dimenangkan anak yang sama.</li>
+<li><b>Semua kebagian</b>: roda mengecualikan yang sudah maju; guru bisa juga memilih manual (mis. menyesuaikan tingkat kesulitan soal dengan anak).</li>
+<li><b>Akhir sesi</b> → layar perayaan kelas: total bintang bersama + “Kelas Melati hebat!” — lalu ringkasan per-anak otomatis tercatat ke Dashboard Guru.</li>
+</ol>
+
+<!-- ═══════════════ 10. ORTU ═══════════════ -->
+<h2><span class="no" style="background:var(--lilac)">10</span>Dashboard Orang Tua <span class="chip ortu">Dewasa</span></h2>
+<p>Nada visual berubah: masih hangat (lila pastel), tetapi kepadatan informasi dewasa —
+tipografi lebih kecil, data nyata, tanpa maskot besar. Pertanyaan yang dijawab halaman ini:
+<em>“Anak saya belajar apa, dan apa yang bisa saya lakukan di rumah?”</em></p>
+
+<figure>
+<div class="wf">
+  <div class="row">
+    <div class="bx slim solid" style="flex:2"><b>Perkembangan Aisyah 🌟 TK A</b></div>
+    <div class="bx slim"><i class="dot">1</i>ganti anak ▾</div>
+    <div class="bx slim">unduh PDF</div>
+  </div>
+  <div class="row">
+    <div class="bx mid mint solid"><i class="dot">2</i><b>Bahasa</b><span>⭐ 7 · 3/5 aktivitas</span></div>
+    <div class="bx mid sky solid"><b>Numerik</b><span>⭐ 4 · 2/5 aktivitas</span></div>
+    <div class="bx mid sun solid"><b>Sains</b><span>⭐ 0 · belum mulai</span></div>
+  </div>
+  <div class="row">
+    <div class="bx tall solid" style="flex:2"><i class="dot">3</i><b>Riwayat 2 minggu</b><span>grafik batang lembut: menit bermain/hari + titik ⭐ saat dapat bintang</span></div>
+    <div class="bx tall lilac solid"><i class="dot">4</i><b>Saran pendampingan</b><span>“Aisyah lancar pola AB-AB. Coba pola 3 warna dengan kancing baju di rumah.”</span></div>
+  </div>
+  <div class="row">
+    <div class="bx mid solid" style="flex:3"><i class="dot">5</i><b>Riwayat aktivitas</b><span>tabel: tanggal · aktivitas · bintang · percobaan ke-</span></div>
+  </div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Multi-anak</b>: keluarga dengan kakak-adik berganti profil dari satu dropdown.</li>
+<li><b>Tiga kartu literasi</b> memakai warna dunia anak — bahasa visual konsisten antara laporan ortu dan pengalaman anak. “Belum mulai” ditulis netral, bukan alarm.</li>
+<li><b>Grafik ringan</b>: menit per hari cukup — ortu TK butuh pola kebiasaan, bukan analitik mendalam.</li>
+<li><b>Saran konkret non-layar</b> — jembatan digital → dunia nyata, diturunkan dari aktivitas yang baru diselesaikan anak.</li>
+<li><b>Riwayat rinci</b> di bawah, untuk ortu yang ingin menelusuri; kolom “percobaan ke-” menormalkan mengulang.</li>
+</ol>
+
+<!-- ═══════════════ 11. ADMIN ═══════════════ -->
+<h2><span class="no" style="background:var(--sky)">11</span>Dashboard Admin <span class="chip admin">Dewasa</span></h2>
+<p>Alat kerja, bukan pengalaman bermain: latar putih bersih, aksen biru, tabel padat.
+Admin (kepala sekolah/operator) mengelola konten (modul → aktivitas → soal), akun guru &amp; kelas,
+dan melihat statistik seluruh sekolah. Guru dapat diberi akses ke editor soal ini bila ia juga
+menyusun materi.</p>
+
+<figure>
+<div class="wf">
+  <div class="row">
+    <div class="bx tall solid" style="flex:0 0 130px"><i class="dot">1</i><b>Sidebar</b><span>Ringkasan · Konten · Guru & Kelas · Siswa · Laporan · Pengaturan</span></div>
+    <div style="flex:3;display:flex;flex-direction:column;gap:10px;min-width:0">
+      <div class="row">
+        <div class="bx slim solid"><b>142</b><span>siswa aktif</span></div>
+        <div class="bx slim solid"><b>15</b><span>aktivitas terbit</span></div>
+        <div class="bx slim solid"><b>⭐ 318</b><span>bintang minggu ini</span></div>
+        <div class="bx slim sun solid"><i class="dot">2</i><b>⚠ 1 draf</b><span>belum ada audio</span></div>
+      </div>
+      <div class="bx mid solid"><i class="dot">3</i><b>Pohon konten</b><span>TK A ▸ Numerik ▸ Pola Manik-manik ▸ 5 soal — [+ Soal] [✎] [👁 Pratinjau] [Terbit/Draf]</span></div>
+      <div class="bx mid solid"><i class="dot">4</i><b>Editor soal</b><span>tipe (pilihan/pola/pasangan/seret) · prompt · unggah gambar & audio 🎙 · tandai kunci jawaban · pratinjau tampilan anak</span></div>
+      <div class="bx slim solid"><i class="dot">5</i><b>Tabel kelas</b><span>nama · kelas · aktivitas terakhir · rata-rata bintang · sorot “belum bermain &gt; 7 hari”</span></div>
+    </div>
+  </div>
+</div>
+</figure>
+
+<ol class="anno">
+<li><b>Navigasi tetap</b> di kiri; admin bekerja lama di sini, hierarki jelas lebih penting daripada suasana.</li>
+<li><b>Kartu peringatan</b> satu-satunya yang berwarna: konten yang belum lengkap (tanpa audio = anak tak bisa memakai) tertahan sebagai draf.</li>
+<li><b>Pohon konten</b> mencerminkan struktur data sebenarnya (Module → Activity → Question) — guru belajar satu model mental yang sama dengan sistem.</li>
+<li><b>Editor dengan pratinjau anak</b>: sebelum terbit, guru melihat soal persis seperti yang akan dilihat siswa, termasuk memutar audionya. Perekam audio 🎙 langsung di form — suara guru sendiri lebih hangat daripada TTS.</li>
+<li><b>Pantauan kelas</b> menyorot anak yang lama tidak bermain — data untuk ditindaklanjuti manusia, bukan peringkat kompetitif antar anak.</li>
+</ol>
+
+<!-- ═══════════════ PENUTUP ═══════════════ -->
+<h2>Aturan Lintas Halaman</h2>
+<div class="scroll"><table>
+<tr><th>Aturan</th><th>Penerapan</th></tr>
+<tr><td>Warna = tempat</td><td>Mint/biru/kuning konsisten dari menu anak sampai laporan ortu dan editor admin</td></tr>
+<tr><td>Posisi tombol tetap</td><td>Pulang selalu kiri-atas · 🔊 selalu kanan-atas · aksi utama selalu bawah-tengah</td></tr>
+<tr><td>Audio menyertai semua teks anak</td><td>Tidak ada layar anak yang menuntut kemampuan membaca</td></tr>
+<tr><td>Gagal itu aman</td><td>Tidak ada merah menyala, skor nol, atau bunyi kalah di area anak</td></tr>
+<tr><td>Responsif</td><td>3 kolom → 2 → 1; target sentuh membesar di tablet/ponsel; wireframe di atas menunjukkan contoh Home</td></tr>
+<tr><td><code>prefers-reduced-motion</code></td><td>Animasi ambient (awan, kupu-kupu, melayang) berhenti; umpan balik tetap ada dalam bentuk statis</td></tr>
+<tr><td>Dua mode pemakaian di sekolah</td><td><b>Klasikal</b>: guru + proyektor (Mode Mengajar) · <b>Individu</b>: anak di komputer lab masing-masing; keduanya menulis ke data progres yang sama</td></tr>
+<tr><td>Aplikasi mengusulkan, guru memutuskan</td><td>Asesmen BB/MB/BSH/BSB dan kartu “perlu perhatian” selalu draf untuk dikonfirmasi guru — bukan penilaian otomatis final</td></tr>
+</table></div>
+
+<h3>Skenario Guru Mengajar (alur ringkas)</h3>
+<ol style="max-width:72ch;font-size:.92rem">
+<li><b>Sebelum kelas</b> — Dashboard Guru: cek RPPH hari ini, latihan aktivitas lewat pratinjau, siapkan proyektor.</li>
+<li><b>Pembuka</b> — Mulai Sesi Kelas → Mode Mengajar: Robo menyapa, guru memutar instruksi audio, membahas contoh bersama-sama.</li>
+<li><b>Inti</b> — roda nama memilih anak maju satu per satu; kelas ikut menjawab lisan; guru memakai papan coret untuk menjelaskan.</li>
+<li><b>Penutup</b> — layar perayaan bintang kelas; guru mengakhiri sesi.</li>
+<li><b>Setelah kelas</b> — ringkasan sesi otomatis masuk Dashboard Guru; guru mengonfirmasi catatan perkembangan 2–3 anak yang diamatinya hari itu; anak melanjutkan aktivitas yang sama secara individu di jam lab atau di rumah (terpantau lewat Dashboard Ortu).</li>
+</ol>
+
+<div class="note"><b>Langkah berikutnya:</b> jika desain ini disetujui, urutan implementasi yang saya
+sarankan: (1) template Quiz — sudah ada fondasinya di kode, (2) tiga halaman dunia literasi,
+(3) Home + maskot, (4) Mode Mengajar (nilai terbesar untuk sekolah: dipakai guru setiap hari),
+(5) Dashboard Guru, (6) Game manik-manik, (7) dashboard Ortu, (8) dashboard Admin.</div>
+
+</div>

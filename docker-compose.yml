@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: stem
+      POSTGRES_PASSWORD: stem
+      POSTGRES_DB: stem_sultan_agung
+    ports:
+      - "5432:5432"
+    volumes:
+      - stem_db_data:/var/lib/postgresql/data
+
+volumes:
+  stem_db_data:

@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* Pastel design tokens — see docs/desain-ui-wireframe.html */
+@theme {
+  --color-paper: #fffdf8;
+  --color-ink: #4a4458;
+  --color-inksoft: #8a8398;
+
+  --color-blush: #ffb3c6;
+  --color-blushsoft: #ffe3eb;
+  --color-blushdeep: #e2809b;
+
+  --color-mint: #a8e0c5;
+  --color-mintsoft: #e2f6ec;
+  --color-mintdeep: #3d7d5c;
+
+  --color-skyblue: #a9d7f5;
+  --color-skysoft: #e3f2fd;
+  --color-skydeep: #3a6b96;
+
+  --color-sunny: #ffd9a0;
+  --color-sunsoft: #fff1dc;
+  --color-sundeep: #b07b2e;
+
+  --color-lilac: #c9b8f0;
+  --color-lilacsoft: #efe9fb;
+  --color-lilacdeep: #6a55a3;
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+/* Keyboard focus is always visible — children navigating with a keyboard
+   or switch device get the same affordance everywhere. */
+:focus-visible {
+  outline: 3px solid var(--color-skydeep);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
