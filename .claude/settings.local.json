@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "mcp__claude-in-chrome__computer",
-      "mcp__claude-in-chrome__read_page"
+      "mcp__claude-in-chrome__read_page",
+      "Bash(npm run *)",
+      "Bash(mv .env /tmp/stem-env-backup && npm run build 2>&1 | grep -E \"✓|Error|error\" | head -8; RESULT=$?; mv /tmp/stem-env-backup .env; echo \"\\(.env dikembalikan\\)\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

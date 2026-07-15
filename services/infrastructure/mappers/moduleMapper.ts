@@ -1,12 +1,9 @@
-
 import type {
+  Module as PrismaModule,
   Activity as PrismaActivity,
   Question as PrismaQuestion,
   Choice as PrismaChoice,
-} from '@prisma/client'
-
-// Membuat tipe data bayangan agar TypeScript Vercel lolos dari error
-export type PrismaModule = any;
+} from "@prisma/client";
 import { Module } from "@/services/domain/entities/Module";
 import { Activity } from "@/services/domain/entities/Activity";
 import { Question } from "@/services/domain/entities/Question";

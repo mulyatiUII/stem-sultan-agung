@@ -1,11 +1,11 @@
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 import type { ActivityRepository } from "@/services/domain/repositories/ActivityRepository";
 import { Activity } from "@/services/domain/entities/Activity";
 import { toDomainActivity } from "../mappers/moduleMapper";
 
 export class PrismaActivityRepository implements ActivityRepository {
   async findBySlug(moduleSlug: string, activitySlug: string): Promise<Activity | null> {
-    const activity = await prisma.activity.findFirst({
+    const activity = await getPrisma().activity.findFirst({
       where: { slug: activitySlug, module: { slug: moduleSlug } },
       include: { questions: { orderBy: { order: "asc" }, include: { choices: { orderBy: { order: "asc" } } } } },
     });
@@ -14,7 +14,7 @@ export class PrismaActivityRepository implements ActivityRepository {
   }
 
   async findById(activityId: string): Promise<Activity | null> {
-    const activity = await prisma.activity.findUnique({
+    const activity = await getPrisma().activity.findUnique({
       where: { id: activityId },
       include: {
         module: true,

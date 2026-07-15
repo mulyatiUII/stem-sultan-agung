@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 import type {
   ActivityResultRepository,
   LeaderboardEntry,
@@ -14,7 +14,7 @@ export class PrismaActivityResultRepository implements ActivityResultRepository 
   }): Promise<ActivityResult> {
     const stars = input.total === 0 ? 0 : Math.round((input.correct / input.total) * 3);
 
-    const result = await prisma.activityResult.create({
+    const result = await getPrisma().activityResult.create({
       data: {
         activityId: input.activityId,
         nickname: input.nickname,
@@ -35,7 +35,7 @@ export class PrismaActivityResultRepository implements ActivityResultRepository 
   }
 
   async aggregateByNickname(limit: number): Promise<LeaderboardEntry[]> {
-    const grouped = await prisma.activityResult.groupBy({
+    const grouped = await getPrisma().activityResult.groupBy({
       by: ["nickname"],
       where: { nickname: { not: null } },
       _sum: { stars: true },
