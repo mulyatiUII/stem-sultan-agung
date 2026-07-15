@@ -15,29 +15,39 @@ export interface MateriItem {
 }
 
 /** Video pembelajaran untuk guru/pendamping — diputar langsung di halaman. */
+// Folder sumber: https://drive.google.com/drive/folders/1jXbvDl86iakp5Yu02ngq8f1016SsDhhF
 export const VIDEO_MATERI: MateriItem[] = [
-  // Contoh — GANTI dengan link video Drive Anda:
-  // {
-  //   title: "Cara Mendampingi Anak Bermain Pola",
-  //   description: "Panduan 5 menit untuk guru sebelum sesi Kota Angka.",
-  //   driveUrl: "https://drive.google.com/file/d/XXXXXXXXXXXX/view?usp=sharing",
-  // },
+  {
+    title: "Pengantar Pengenalan Problem Solving",
+    description:
+      "Bekal untuk guru/pendamping sebelum mengenalkan pemecahan masalah (problem solving) kepada anak.",
+    driveUrl: "https://drive.google.com/file/d/1l8CkE2DhrgGaJ74aJZmmbSNYSewthMWF/view",
+  },
 ];
 
-/** Lembar kerja individual (PDF) — pratinjau + tombol unduh. */
+/** Modul & lembar kerja (PDF) — pratinjau + tombol unduh. */
+// Folder sumber: https://drive.google.com/drive/folders/1omS8c3V8H1HwQ2iAhf0rqPMtIIDmpisz
 export const LEMBAR_KERJA: MateriItem[] = [
-  // {
-  //   title: "Lembar Kerja Pola Manik-Manik",
-  //   driveUrl: "https://drive.google.com/file/d/XXXXXXXXXXXX/view?usp=sharing",
-  // },
+  {
+    title: "Modul CT & STEM — TK A (2026)",
+    description: "Modul Computational Thinking & STEM untuk jenjang TK A.",
+    driveUrl: "https://drive.google.com/file/d/16F-S0jgml36JqRllwQpTUlKBLhwaDUkT/view",
+  },
+  {
+    title: "Modul CT & STEM — TK B (2026)",
+    description: "Modul Computational Thinking & STEM untuk jenjang TK B.",
+    driveUrl: "https://drive.google.com/file/d/138OIjMU-DqU02xGs8lTrl2pFvl6x2EkN/view",
+  },
 ];
 
 /**
- * ATAU: satu link folder Drive berisi semua lembar kerja — seluruh isi folder
- * tampil otomatis sebagai galeri (tidak perlu mendaftar satu per satu).
+ * ATAU: satu link folder Drive — seluruh isi folder tampil otomatis sebagai
+ * galeri. Aktifkan bila nanti berkas bertambah banyak, agar tidak perlu
+ * mendaftar satu per satu:
+ * export const FOLDER_LEMBAR_KERJA =
+ *   "https://drive.google.com/drive/folders/1omS8c3V8H1HwQ2iAhf0rqPMtIIDmpisz";
  */
 export const FOLDER_LEMBAR_KERJA: string | null = null;
-// contoh: "https://drive.google.com/drive/folders/XXXXXXXXXXXX?usp=sharing";
 
 // ── Helper URL Google Drive ─────────────────────────────
 

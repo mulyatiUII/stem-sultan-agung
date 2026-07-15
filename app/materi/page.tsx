@@ -75,7 +75,7 @@ export default function MateriPage() {
 
         {(LEMBAR_KERJA.length > 0 || folderEmbed) && (
           <section className="mt-10">
-            <h2 className="text-xl font-extrabold text-ink">🖨️ Lembar Kerja</h2>
+            <h2 className="text-xl font-extrabold text-ink">🖨️ Modul & Lembar Kerja</h2>
             <p className="mt-1 max-w-[65ch] text-sm text-inksoft">
               Unduh dan cetak untuk kegiatan di kelas atau di rumah.
             </p>
